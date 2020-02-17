@@ -7,11 +7,8 @@ import {
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/button.css";
-import Landing from "./page/Landing";
-import Index from "./page/Index";
-import Profile from "./page/Profile";
-import Edit from "./page/Edit";
-import AddPet from "./page/AddPet";
+import { Landing, Index, Profile, Edit, AddPet } from './page/Landing';
+
 function App() {
   const loggedIn = localStorage.getItem("isLogin");
   console.log(loggedIn);
