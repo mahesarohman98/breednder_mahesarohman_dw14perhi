@@ -1,0 +1,86 @@
+#swap {
+  /* background ; */
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  cursor: url("https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png")
+      39 39,
+    auto;
+}
+
+#swap > div {
+  position: absolute;
+  /* width: 90vw; */
+  height: 75vh;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#swap > div > div {
+  padding: 8px;
+  background-color: white;
+  background-size: auto 85%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 40vh;
+  max-width: 40vh;
+  height: 65vh;
+  max-height: 65vh;
+  will-change: transform;
+  border-radius: 10px;
+  box-shadow: 0 12.5px 100px -10px rgba(255, 204, 230, 1),
+    0 10px 10px -10px rgba(26, 0, 13, 1);
+}
+
+//:optional
+#swap img {
+  height: 350px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+#swap button[aria-label="previous"],
+#swap button[aria-label="next"] {
+  background: #cc0066 !important;
+  color: white !important;
+}
+
+#swap h2 {
+  display: inline-block;
+  color: black;
+  font-size: 20px;
+}
+
+#swap h2:nth-of-type(2) {
+  opacity: 0.5;
+  font-size: 13px;
+}
+
+#swap h5 {
+  margin-top: -1px;
+  margin-left: 5px;
+  color: black;
+  font-size: small;
+}
+#swap h5:last-of-type {
+  color: black;
+}
+
+#swap .card > div {
+  height: 360px !important;
+}
+
+#swap .card {
+  height: 100% !important;
+}
+
+#swap .slider-control-bottomcenter {
+  bottom: -1px !important;
+}
+
+#swap .slider-control-bottomcenter > ul > li > button {
+  color: #cc0066 !important;
+}

@@ -1,0 +1,20 @@
+ <Col xs={4} style={matchContainer}>
+                  <img
+                    src={cat}
+                    alt="Cat 1"
+                    Width="70"
+                    height="auto"
+                    style={imageMatch}
+                  />
+                  <a style={imageFont}>Cat 1</a>
+                </Col>
+                <Col xs={4} style={matchContainer}>
+                  <img
+                    src={cat}
+                    alt="Cat 1"
+                    Width="70"
+                    height="auto"
+                    style={imageMatch}
+                  />
+                  <a style={imageFont}>Cat 2</a>
+                </Col>
