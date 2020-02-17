@@ -7,7 +7,11 @@ import {
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/button.css";
-import { Landing, Index, Profile, Edit, AddPet } from './page/Landing';
+import Landing from './page/Landing.js';
+import Index from './page/Index.js';
+import Profile from './page/Profile.js';
+import Edit from './page/Edit.js';
+import AddPet from './page/AddPet.js';
 
 function App() {
   const loggedIn = localStorage.getItem("isLogin");
