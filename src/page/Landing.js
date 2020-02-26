@@ -1,4 +1,7 @@
 import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { getData } from "../_actions/species";
+
 import { Jumbotron, Container, Row, Col, Navbar } from "react-bootstrap";
 import LoginModal from "../modal/LoginModal";
 import RegisterModal from "../modal/RegisterModal";
@@ -11,6 +14,9 @@ function Landing(props) {
   const [h1Size, seth1Size] = React.useState(
     window.matchMedia("(min-width: 578px)").matches ? "8vH" : "5.5vH"
   );
+
+  useEffect(() => props.getData(), []);
+
   const jumbotron = {
     paddingTop: "35.8vH",
     background: " url(" + cat + ")" + " no-repeat center fixed",
@@ -55,7 +61,11 @@ function Landing(props) {
               <h1 style={{ fontSize: h1Size }}>
                 Make your pet <b>happy</b>
               </h1>
-
+              <ul>
+                {props.species.map((item, index) => (
+                  <li key={index}>{item.name}</li>
+                ))}
+              </ul>
               <p>
                 by clicking enter, you agree to <u>our terms</u>. Learn how we
                 process your data in our <u>Privacy Policy</u> and{" "}
@@ -74,4 +84,11 @@ function Landing(props) {
   );
 }
 
-export default Landing;
+function mapStateToProps(state) {
+  return {
+    species: state.species
+  };
+}
+
+// export default Landing;
+export default connect(mapStateToProps, { getData })(Landing);
