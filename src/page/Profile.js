@@ -46,7 +46,7 @@ function App() {
 
       <Container style={{ marginTop: "39px" }}>
         <Row>
-          <Col md={6} xs={1} />
+          <Col md={6} sm={2} xs={1} />
           <Col>
             <ProfileCard />
           </Col>

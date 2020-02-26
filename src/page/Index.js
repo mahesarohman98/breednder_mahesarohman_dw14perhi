@@ -77,12 +77,12 @@ function App() {
           </Col>
         </Row>
       </Container>
-      <div style={deckLogo}>
+      {/* <div style={deckLogo}>
         <AiOutlineReload style={{ color: "#3300cc" }} />
         <AiOutlineClose style={{ color: "#cc0000" }} />
         <AiFillHeart style={{ color: "#cc0066" }} />
         <AiFillThunderbolt style={{ color: "#3300cc" }} />
-      </div>
+      </div> */}
     </>
   );
 }

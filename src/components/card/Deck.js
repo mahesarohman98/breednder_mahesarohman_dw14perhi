@@ -5,6 +5,12 @@ import { Container, Row, Col } from "react-bootstrap";
 import "../../styles/deck.css";
 import data from "../../Data.js";
 import Card from "./Card";
+import {
+  AiOutlineReload,
+  AiOutlineClose,
+  AiFillHeart,
+  AiFillThunderbolt
+} from "react-icons/ai";
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = i => ({
   x: 0,
@@ -19,6 +25,22 @@ const trans = (r, s) =>
   `perspective(1500px) rotateX(0) rotateY(0) rotateZ(${r}deg) scale(${s})`;
 
 function Deck() {
+  const [left, setLeft] = React.useState(
+    window.matchMedia("(min-width: 768px)").matches ? "760.5px" : "113.5px"
+  );
+  const [bottom, setBottom] = React.useState(
+    window.matchMedia("(min-width: 768px)").matches ? "-216px" : "-230px"
+  );
+  const deckLogo = {
+    textAlign: "center",
+    fontSize: "40px",
+    position: "absolute",
+    bottom: bottom,
+    left: left,
+    cursor: "pointer",
+    zIndex: "-1"
+  };
+
   const [gone] = useState(() => new Set()); // The set flags all the cards that are flicked out
   const [props, set] = useSprings(data.length, i => ({
     ...to(i),
@@ -56,7 +78,7 @@ function Deck() {
     }
   );
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
-  return props.map(({ x, y, rot, scale }, i) => (
+  const mycard = props.map(({ x, y, rot, scale }, i) => (
     <Card
       i={i}
       x={x}
@@ -68,6 +90,18 @@ function Deck() {
       bind={bind}
     />
   ));
+  return (
+    <>
+      {mycard}
+
+      <div style={deckLogo}>
+        <AiOutlineReload style={{ color: "#3300cc" }} />
+        <AiOutlineClose style={{ color: "#cc0000" }} />
+        <AiFillHeart style={{ color: "#cc0066" }} />
+        <AiFillThunderbolt style={{ color: "#3300cc" }} />
+      </div>
+    </>
+  );
 }
 
 export default Deck;

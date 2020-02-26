@@ -48,7 +48,7 @@ function multiUpload() {
         return (
           <>
             {image[index] ? (
-              <Col md={4} xs={6}>
+              <Col md={4} sm={4} xs={6}>
                 <Image
                   src={image[index]}
                   alt={index}
@@ -62,7 +62,7 @@ function multiUpload() {
                 </a>
               </Col>
             ) : (
-              <Col md={4} xs={6}>
+              <Col md={4} sm={4} xs={6}>
                 <div style={emptyImage}>
                   <a style={emptyLogo}>
                     <IoMdAddCircle />

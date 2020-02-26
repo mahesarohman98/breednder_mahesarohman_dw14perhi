@@ -5,8 +5,14 @@ import RegisterModal from "../modal/RegisterModal";
 import cat from "../image/cat-background.jpg";
 
 function Landing(props) {
+  const [matches, setMatches] = React.useState(
+    window.matchMedia("(min-width: 578px)").matches
+  );
+  const [h1Size, seth1Size] = React.useState(
+    window.matchMedia("(min-width: 578px)").matches ? "8vH" : "5.5vH"
+  );
   const jumbotron = {
-    paddingTop: 215,
+    paddingTop: "35.8vH",
     background: " url(" + cat + ")" + " no-repeat center fixed",
     backgroundSize: "cover",
     marginBottom: 0,
@@ -25,40 +31,28 @@ function Landing(props) {
          color: #ffffff;
        }
 
-     .btn-flat {
-       background-color: #cc0066;
-       color: white;
-       border-radius: 25px
-     }
-     .btn-flat:hover {
-       color: white;
-     }
-     .btn-xxl {
-       padding: 10px 40px;;
-       font-size: 1.5rem;
-     }
      `}
       </style>
 
-      <Navbar bg="transparent" fixed="top">
-        <a
-          class="navbar-brand"
-          style={{ marginLeft: "25px", fontSize: "30px" }}
-        >
-          breedner
-        </a>
-        <Navbar.Collapse className="justify-content-end">
-          <LoginModal />
-        </Navbar.Collapse>
-      </Navbar>
-      <Container fluid="md" style={{ height: "100%" }}>
+      <Container fluid="md">
+        <Navbar bg="transparent" fixed="top">
+          <a
+            class="navbar-brand"
+            style={{ marginLeft: "25px", fontSize: "35px", color: "white" }}
+          >
+            breedner
+          </a>
+          <Navbar.Collapse className="justify-content-end">
+            <LoginModal />
+          </Navbar.Collapse>
+        </Navbar>
         <Row>
           <Col xs={12} style={{ paddingRight: "0px", paddingLeft: "0px" }}>
             <Jumbotron style={jumbotron} className="text-center">
-              <h1 style={{ fontSize: "60px" }}>
+              <h1 style={{ fontSize: h1Size }}>
                 Swipe <b>right.</b>
               </h1>
-              <h1 style={{ fontSize: "60px" }}>
+              <h1 style={{ fontSize: h1Size }}>
                 Make your pet <b>happy</b>
               </h1>
 
@@ -72,7 +66,7 @@ function Landing(props) {
             </Jumbotron>
           </Col>
           <Col xs={12} style={footer} className="text-center">
-            <h1>FIND YOUR PET'S MATCH</h1>
+            <h1 style={{ fontSize: h1Size }}>FIND YOUR PET'S MATCH</h1>
           </Col>
         </Row>
       </Container>

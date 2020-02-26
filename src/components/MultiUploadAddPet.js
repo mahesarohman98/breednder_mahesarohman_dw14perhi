@@ -26,7 +26,7 @@ function multiUploadAddPet() {
     <>
       {insert.map(index => (
         <>
-          <Col md={4} xs={6}>
+          <Col md={4} sm={4} xs={6}>
             <div style={emptyImage}>
               <a style={emptyLogo}>
                 <IoMdAddCircle />

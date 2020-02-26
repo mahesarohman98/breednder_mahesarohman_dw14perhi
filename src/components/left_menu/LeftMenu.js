@@ -41,7 +41,7 @@ function LeftMenu(props) {
 
       <Container id="leftMenu" fluid="md">
         <Row>
-          <Col md={4} xs={8} style={leftMenu}>
+          <Col md={4} sm={4} xs={8} style={leftMenu}>
             <Header headerName={props.headerName} myDisplay={display}></Header>
             <Col
               style={{
