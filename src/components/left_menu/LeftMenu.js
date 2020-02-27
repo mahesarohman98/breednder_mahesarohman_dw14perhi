@@ -42,7 +42,11 @@ function LeftMenu(props) {
       <Container id="leftMenu" fluid="md">
         <Row>
           <Col md={4} sm={4} xs={8} style={leftMenu}>
-            <Header headerName={props.headerName} myDisplay={display}></Header>
+            <Header
+              headerName={props.headerName}
+              petName={props.petName}
+              myDisplay={display}
+            ></Header>
             <Col
               style={{
                 overflow: "scroll",

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import data from "../../MyData.js";
 
-function AccountSetting() {
+function AccountSetting(props) {
   const [mailValue, setMailValue] = useState(data.breeder.mail);
   const [phoneValue, setPhoneValue] = useState(data.breeder.phone);
   const leftPanelHeader = {
@@ -46,5 +47,10 @@ function AccountSetting() {
     </>
   );
 }
-
-export default AccountSetting;
+const mapStateToProps = state => {
+  return {
+    pets: state.pets,
+    auth: state.auth
+  };
+};
+export default connect(mapStateToProps)(AccountSetting);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { Row, Col, Button } from "react-bootstrap";
 import { IoIosArrowDown, IoIosArrowBack } from "react-icons/io";
 import ProfileImage from "./ProfileImage";
@@ -7,9 +8,15 @@ import { useHistory } from "react-router-dom";
 
 function Header(props) {
   const [display, setDisplay] = useState("block");
+  const [petName, setPetname] = useState("petName");
+  // const user = props.pets.data[1].find(x => x.id === '1'));
+  console.log(props.auth.data.id);
+
+  // console.log(props.pets.data[0], "asdkjfhasdkjhkjhasdfjhk");
 
   useEffect(() => {
     document.getElementById("leftMenu").style.display = "block";
+    // console.log("sddddddddddddddddddddddddddddd");
   }, []);
 
   function burgerHandler() {
@@ -37,7 +44,7 @@ function Header(props) {
                 style={{ marginLeft: "4px", cursor: "pointer" }}
               >
                 <ProfileImage /> {"  "}
-                <b>{data.pet.name}</b>
+                <b>{props.petName}</b>
                 <IoIosArrowDown />
               </a>
             </Col>
@@ -69,7 +76,7 @@ function Header(props) {
             />
             <ProfileImage />
             <a style={{ marginLeft: "10px" }}>
-              <b>{data.pet.name}</b>
+              <b>{props.petName}</b>
             </a>
           </Col>
           <Col className="text-right">
@@ -86,4 +93,14 @@ function Header(props) {
     );
   }
 }
-export default Header;
+
+// export default Header;
+
+const mapStateToProps = state => {
+  return {
+    pets: state.pets,
+    auth: state.auth
+  };
+};
+
+export default connect(mapStateToProps)(Header);

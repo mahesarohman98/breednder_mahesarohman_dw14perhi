@@ -7,31 +7,33 @@ import {
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/button.css";
-import Landing from './page/Landing.js';
-import Index from './page/Index.js';
-import Profile from './page/Profile.js';
-import Edit from './page/Edit.js';
-import AddPet from './page/AddPet.js';
+import Landing from "./page/Landing.js";
+import Index from "./page/Index.js";
+import Profile from "./page/Profile.js";
+import Edit from "./page/Edit.js";
+import AddPet from "./page/AddPet.js";
 
 function App() {
-  const loggedIn = localStorage.getItem("isLogin");
-  console.log(loggedIn);
+  // const loggedIn = localStorage.getItem("auth");
+  // console.log(loggedIn);
 
   return (
     <Router>
       <Switch>
         <Route path="/add-pet">
-          {loggedIn ? <AddPet /> : <Redirect to="/" />}
+          <AddPet />
         </Route>
-        <Route path="/Edit">{loggedIn ? <Edit /> : <Redirect to="/" />}</Route>
+        <Route path="/Edit">
+          <Edit />
+        </Route>
         <Route path="/profile">
-          {loggedIn ? <Profile /> : <Redirect to="/" />}
+          <Profile />
         </Route>
         <Route path="/dashboard">
-          {loggedIn ? <Index /> : <Redirect to="/" />}
+          <Index />
         </Route>
         <Route path="/">
-          {loggedIn === true ? <Redirect to="/dashboard" /> : <Landing />}
+          <Landing />
         </Route>
       </Switch>
     </Router>

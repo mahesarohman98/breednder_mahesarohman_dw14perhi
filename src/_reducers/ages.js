@@ -1,4 +1,4 @@
-import { GET_SPECIES } from "../config/constants";
+import { GET_AGES } from "../config/constants";
 
 // Setup Reducer for Redux
 const initialState = {
@@ -9,18 +9,18 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case `${GET_SPECIES}_PENDING`:
+    case `${GET_AGES}_PENDING`:
       return {
         ...state,
         loading: true
       };
-    case `${GET_SPECIES}_FULFILLED`:
+    case `${GET_AGES}_FULFILLED`:
       return {
         ...state,
         data: action.payload,
         loading: false
       };
-    case `${GET_SPECIES}_REJECTED`:
+    case `${GET_AGES}_REJECTED`:
       return {
         ...state,
         loading: false,

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { getData } from "../_actions/species";
+import { getSpecies } from "../_actions/species";
+import { getAges } from "../_actions/ages";
 
 import { Jumbotron, Container, Row, Col, Navbar } from "react-bootstrap";
 import LoginModal from "../modal/LoginModal";
@@ -15,7 +16,12 @@ function Landing(props) {
     window.matchMedia("(min-width: 578px)").matches ? "8vH" : "5.5vH"
   );
 
-  useEffect(() => props.getData(), []);
+  useEffect(() => {
+    props.getSpecies();
+    props.getAges();
+    // console.log(props.species.data);
+  }, []);
+  const { data, loading } = props.species;
 
   const jumbotron = {
     paddingTop: "35.8vH",
@@ -36,7 +42,6 @@ function Landing(props) {
        h1, p{
          color: #ffffff;
        }
-
      `}
       </style>
 
@@ -61,11 +66,7 @@ function Landing(props) {
               <h1 style={{ fontSize: h1Size }}>
                 Make your pet <b>happy</b>
               </h1>
-              <ul>
-                {props.species.map((item, index) => (
-                  <li key={index}>{item.name}</li>
-                ))}
-              </ul>
+
               <p>
                 by clicking enter, you agree to <u>our terms</u>. Learn how we
                 process your data in our <u>Privacy Policy</u> and{" "}
@@ -84,11 +85,18 @@ function Landing(props) {
   );
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
-    species: state.species
+    species: state.species,
+    ages: state.ages
   };
-}
+};
 
-// export default Landing;
-export default connect(mapStateToProps, { getData })(Landing);
+const mapDispatchToProps = dispatch => {
+  return {
+    getSpecies: () => dispatch(getSpecies()),
+    getAges: () => dispatch(getAges())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Landing);

@@ -1,4 +1,7 @@
 import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { postLogin } from "../_actions/auth";
+
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import { IoMdCloseCircle } from "react-icons/io";
 
@@ -6,11 +9,23 @@ import { useHistory } from "react-router-dom";
 
 function LoginModal(props) {
   const [modalShow, setModalShow] = React.useState(false);
+  const [emailValue, setEmailValue] = React.useState("janedoe23@gmail.com");
+  const [passwordValue, setPasswordValue] = React.useState("123456");
+
+  const [log, setLog] = React.useState("");
 
   let history = useHistory();
 
   useEffect(() => {
-    localStorage.setItem("isLogin", false);
+    if (props.auth.data.id != null) {
+      if (props.auth.loading == false) {
+        localStorage.setItem("token", props.auth.data.token);
+        localStorage.setItem("userId", props.auth.data.id);
+        history.push("/dashboard");
+      } else {
+        setLog("Username or Password wrong");
+      }
+    }
   });
 
   const closeButton = {
@@ -25,9 +40,9 @@ function LoginModal(props) {
     borderBottom: "0px"
   };
 
-  const handleClick = () => {
-    localStorage.setItem("isLogin", true);
-    history.push("/dashboard");
+  const handleClick = e => {
+    // e.preventDefault;
+    props.postLogin({ emailValue, passwordValue });
   };
   return (
     <>
@@ -61,17 +76,28 @@ function LoginModal(props) {
         </Modal.Header>
 
         <Modal.Body className="text-center">
+          <h5 style={{ color: "red" }}>{log}</h5>
           <Form>
             <Form.Group controlId="formBasicEmail">
-              <Form.Control type="email" placeholder="Enter email" />
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                value={emailValue}
+                onChange={e => setEmailValue(e.target.value)}
+              />
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
-              <Form.Control type="password" placeholder="Password" />
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={passwordValue}
+                onChange={e => setPasswordValue(e.target.value)}
+              />
             </Form.Group>
             <Button
               variant="flat"
               className="text-center"
-              onClick={() => handleClick()}
+              onClick={() => props.postLogin({ emailValue, passwordValue })}
             >
               Login
             </Button>
@@ -82,4 +108,18 @@ function LoginModal(props) {
   );
 }
 
-export default LoginModal;
+// export default LoginModal;
+
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    postLogin: user => dispatch(postLogin(user))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginModal);

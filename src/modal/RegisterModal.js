@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import { IoMdCloseCircle } from "react-icons/io";
 
@@ -6,6 +7,9 @@ import { Link } from "react-router-dom";
 
 function RegisterModal(props) {
   const [modalShow, setModalShow] = React.useState(false);
+  const { data, loading } = props.species;
+  console.log(props.ages.data);
+
   const closeButton = {
     color: "#cc0000",
     fontSize: "30px",
@@ -55,7 +59,7 @@ function RegisterModal(props) {
               <Form.Control type="password" placeholder="Password" />
             </Form.Group>
             <Form.Group controlId="formPhoneBreeder">
-              <Form.Control type="number" placeholder="Phone Breeder" />
+              <Form.Control type="text" placeholder="Phone Breeder" />
             </Form.Group>
             <Form.Group controlId="formAddressBreeder">
               <Form.Control
@@ -68,19 +72,33 @@ function RegisterModal(props) {
               <Form.Control type="text" placeholder="Name Pet" />
             </Form.Group>
             <Form.Group controlId="formGenderPet">
-              <Form.Control type="text" placeholder="Gender Pet" />
+              <Form.Control as="select">
+                <option value="" selected disable>
+                  Gender Pet
+                </option>
+                <option>Male</option>
+                <option>Female</option>
+              </Form.Control>
             </Form.Group>
             <Form.Group controlId="formSpeciesPet">
               <Form.Control as="select">
                 <option value="" selected disable>
                   Species Pet
                 </option>
-                <option>....</option>
-                <option>...</option>
+                {data.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                ))}
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="formAgePet">
-              <Form.Control type="number" placeholder="Age Pet  " />
+              <Form.Control as="select">
+                <option value="" selected disable>
+                  Ages Pet
+                </option>
+                {props.ages.data.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                ))}
+              </Form.Control>
             </Form.Group>
             <Link to="/dashboard">
               <Button variant="flat" className="text-center">
@@ -93,4 +111,13 @@ function RegisterModal(props) {
     </>
   );
 }
-export default RegisterModal;
+// export default RegisterModal;
+
+const mapStateToProps = state => {
+  return {
+    species: state.species,
+    ages: state.ages
+  };
+};
+
+export default connect(mapStateToProps)(RegisterModal);

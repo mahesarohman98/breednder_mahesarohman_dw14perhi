@@ -1,16 +1,13 @@
 import React, { userState, useEffect } from "react";
+import { connect } from "react-redux";
+import { getPets } from "../_actions/pets";
+
 import { Container, Row, Col, Button } from "react-bootstrap";
 import LeftMenu from "../components/left_menu/LeftMenu";
 import RenderImage from "../components/RenderImage";
 import Deck from "../components/card/Deck";
-import {
-  AiOutlineReload,
-  AiOutlineClose,
-  AiFillHeart,
-  AiFillThunderbolt
-} from "react-icons/ai";
 
-function App() {
+function App(props) {
   const [matches, setMatches] = React.useState(
     window.matchMedia("(min-width: 768px)").matches
   );
@@ -20,6 +17,19 @@ function App() {
   const [bottom, setBottom] = React.useState(
     window.matchMedia("(min-width: 768px)").matches ? "116px" : "50px"
   );
+  const [petName, setPetName] = React.useState();
+
+  var coba;
+  const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    props.getPets(token);
+  }, []);
+
+  props.pets.data.map((item, index) => {
+    if (userId == item.breeder.id) coba = item.name;
+  });
 
   const match = {
     padding: "7px",
@@ -53,6 +63,7 @@ function App() {
     <>
       <LeftMenu
         headerName="index"
+        petName={coba}
         container={
           <>
             <Col style={{ backgroundColor: "#ffe6f2" }}>
@@ -87,4 +98,18 @@ function App() {
   );
 }
 
-export default App;
+// export default App;
+const mapStateToProps = state => {
+  return {
+    pets: state.pets,
+    auth: state.auth
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getPets: token => dispatch(getPets(token))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

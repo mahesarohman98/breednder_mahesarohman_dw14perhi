@@ -65,6 +65,11 @@ function Deck() {
         const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0; // When a card is gone it flys out left or right, otherwise goes back to zero
         const rot = xDelta / 100 + (isGone ? dir * 10 * velocity : 0); // How much the card tilts, flicking it harder makes it rotate faster
         const scale = down ? 1.1 : 1; // Active cards lift up a bit
+        console.log(x);
+
+        if (x >= 1000) alert("like");
+        else if (x <= -1000) alert("nope");
+
         return {
           x,
           rot,
@@ -73,8 +78,10 @@ function Deck() {
           config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 }
         };
       });
-      if (!down && gone.size === data.length)
+      if (!down && gone.size === data.length) {
         setTimeout(() => gone.clear() || set(i => to(i)), 600);
+        // console.log(x);
+      }
     }
   );
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
