@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getUser } from "../../_actions/users";
 import { connect } from "react-redux";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import data from "../../MyData.js";
 
 function AccountSetting(props) {
-  const [mailValue, setMailValue] = useState(data.breeder.mail);
-  const [phoneValue, setPhoneValue] = useState(data.breeder.phone);
+  const [mailValue, setMailValue] = useState(props.email);
+  const [phoneValue, setPhoneValue] = useState(props.phone);
+
+  useEffect(() => {
+    if (props.email == null && props.phone == null) {
+    } else {
+      setMailValue(props.email);
+      setPhoneValue(props.phone);
+    }
+  }, [props.email, props.phone]);
   const leftPanelHeader = {
     color: "#cc0066",
     paddingTop: "30px",
@@ -19,7 +28,6 @@ function AccountSetting(props) {
     paddingBottom: "1px",
     backgroundColor: "white"
   };
-  const inputVal = {};
   return (
     <>
       <Col style={leftPanelHeader}>
@@ -29,7 +37,7 @@ function AccountSetting(props) {
         <Form.Group controlId="formBasicEmail">
           <Form.Control
             type="email"
-            placeholder={data.breeder.mail}
+            placeholder={props.email}
             value={mailValue}
             onChange={e => setMailValue(e.target.value)}
           />
@@ -38,7 +46,7 @@ function AccountSetting(props) {
         <Form.Group controlId="formBasicEmail">
           <Form.Control
             type="text"
-            placeholder={data.breeder.phone}
+            placeholder={props.phone}
             value={phoneValue}
             onChange={e => setPhoneValue(e.target.value)}
           />
@@ -49,8 +57,14 @@ function AccountSetting(props) {
 }
 const mapStateToProps = state => {
   return {
-    pets: state.pets,
-    auth: state.auth
+    users: state.users
   };
 };
-export default connect(mapStateToProps)(AccountSetting);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getUser: id => dispatch(getUser(id))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountSetting);

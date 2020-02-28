@@ -16,7 +16,7 @@ function Header(props) {
 
   useEffect(() => {
     document.getElementById("leftMenu").style.display = "block";
-    // console.log("sddddddddddddddddddddddddddddd");
+    // props.getPets();
   }, []);
 
   function burgerHandler() {

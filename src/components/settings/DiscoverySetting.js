@@ -9,10 +9,9 @@ import { useHistory } from "react-router-dom";
 
 import data from "../../MyData.js";
 
-function DiscoverySetting() {
+function DiscoverySetting(props) {
   const [value, setValue] = useState(data.breeder.maximumDistance);
   let history = useHistory();
-
   const leftPanelHeader = {
     color: "#cc0066",
     paddingTop: "30px",
@@ -25,6 +24,7 @@ function DiscoverySetting() {
     paddingBottom: "1px",
     backgroundColor: "white"
   };
+
   return (
     <>
       <Col style={leftPanelHeader}>
@@ -49,8 +49,19 @@ function DiscoverySetting() {
         <Form.Group controlId="exampleForm.ControlSelect1">
           <Form.Label>Species</Form.Label>
           <Form.Control as="select">
-            <option>Dog</option>
-            <option>Cat</option>
+            {props.species.map((item, index) => {
+              return (
+                <>
+                  {item.name == props.data.species.name ? (
+                    <option key={index} selected="selected">
+                      {item.name}
+                    </option>
+                  ) : (
+                    <option key={index}>{item.name}</option>
+                  )}
+                </>
+              );
+            })}
           </Form.Control>
         </Form.Group>
         <div className="text-center">

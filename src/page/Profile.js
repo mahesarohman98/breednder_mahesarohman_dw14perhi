@@ -1,5 +1,6 @@
 import React, { userState, useEffect } from "react";
 import { connect } from "react-redux";
+import { getUser } from "../_actions/users";
 // import { getPets } from "../_actions/pets";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import LeftMenu from "../components/left_menu/LeftMenu";
@@ -13,15 +14,11 @@ function App(props) {
     window.matchMedia("(min-width: 768px)").matches
   );
 
-  useEffect(() => {}, []);
-  console.log(props.pets);
-
-  var coba;
-  const userId = localStorage.getItem("userId");
-  props.pets.data.map((item, index) => {
-    if (userId == item.breeder.id) coba = item.name;
+  const data = props.pets.userPet;
+  var petId;
+  data.map((item, index) => {
+    if (index == 0) petId = item.name;
   });
-
   const match = {
     padding: "7px",
     borderBottom: "3px Solid #cc0066",
@@ -34,6 +31,8 @@ function App(props) {
   });
 
   useEffect(() => {
+    const id = localStorage.getItem("userId");
+    props.getUser(id);
     if (window.matchMedia("(min-width: 768px)").matches) {
       document.getElementById("leftMenu").style.display = "block";
     } else {
@@ -46,12 +45,18 @@ function App(props) {
       <AddPetModal />
       <LeftMenu
         headerName="setting"
-        petName={coba}
+        petName={petId}
         container={
           <>
             <Col style={{ padding: "0px" }}>
-              <AccountSetting />
-              <DiscoverySetting />
+              <AccountSetting
+                email={props.users.data.email}
+                phone={props.users.data.phone}
+              />
+              <DiscoverySetting
+                data={props.pets.userPet[0]}
+                species={props.species.data}
+              />
             </Col>
           </>
         }
@@ -61,7 +66,7 @@ function App(props) {
         <Row>
           <Col md={6} sm={2} xs={1} />
           <Col>
-            <ProfileCard />
+            <ProfileCard data={props.pets.userPet[0]} />
           </Col>
         </Row>
       </Container>
@@ -73,14 +78,16 @@ function App(props) {
 const mapStateToProps = state => {
   return {
     pets: state.pets,
-    auth: state.auth
+    auth: state.auth,
+    species: state.species,
+    users: state.users
   };
 };
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     getPets: token => dispatch(getPets(token))
-//   };
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+    getUser: id => dispatch(getUser(id))
+  };
+};
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

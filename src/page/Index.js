@@ -1,6 +1,6 @@
 import React, { userState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getPets } from "../_actions/pets";
+import { getPets, setUserPets } from "../_actions/pets";
 
 import { Container, Row, Col, Button } from "react-bootstrap";
 import LeftMenu from "../components/left_menu/LeftMenu";
@@ -19,18 +19,20 @@ function App(props) {
   );
   const [petName, setPetName] = React.useState();
 
-  var coba;
+  // var coba;
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    var coba = [];
     props.getPets(token);
   }, []);
 
-  props.pets.data.map((item, index) => {
-    if (userId == item.breeder.id) coba = item.name;
+  const data = props.pets.userPet;
+  var petId;
+  data.map((item, index) => {
+    if (index == 0) petId = item.name;
   });
-
   const match = {
     padding: "7px",
     borderBottom: "3px Solid #cc0066",
@@ -63,7 +65,7 @@ function App(props) {
     <>
       <LeftMenu
         headerName="index"
-        petName={coba}
+        petName={petId}
         container={
           <>
             <Col style={{ backgroundColor: "#ffe6f2" }}>
@@ -108,7 +110,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPets: token => dispatch(getPets(token))
+    getPets: token => dispatch(getPets(token)),
+    setUserPets: item => dispatch(setUserPets(item))
   };
 };
 

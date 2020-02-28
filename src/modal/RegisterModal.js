@@ -86,7 +86,9 @@ function RegisterModal(props) {
                   Species Pet
                 </option>
                 {data.map((item, index) => (
-                  <option key={index}>{item.name}</option>
+                  <option key={index} value={item.id}>
+                    {item.name}
+                  </option>
                 ))}
               </Form.Control>
             </Form.Group>
@@ -96,7 +98,9 @@ function RegisterModal(props) {
                   Ages Pet
                 </option>
                 {props.ages.data.map((item, index) => (
-                  <option key={index}>{item.name}</option>
+                  <option key={index} value={item.id}>
+                    {item.name}
+                  </option>
                 ))}
               </Form.Control>
             </Form.Group>

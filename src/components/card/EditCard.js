@@ -1,24 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { getPets, setUserPets, updateUsers } from "../../_actions/pets";
+
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import data from "../../MyData.js";
 import MultiUpload from "../MultiUpload";
 import { useHistory } from "react-router-dom";
 
-function EditCard() {
+function EditCard(props) {
   let history = useHistory();
-  const [namePetValue, setNamePetValue] = useState(data.pet.name);
-  const [breederNameValue, setBreederNamePetValue] = useState(
-    data.breeder.name
-  );
-  const [genderValue, setGenderValue] = useState(data.pet.gender);
-  const [ageValue, setAgeValue] = useState(data.pet.age);
-  const [aboutValue, setAboutValue] = useState(data.pet.about);
+  const [namePetValue, setNamePetValue] = useState();
+  const [breederNameValue, setBreederNamePetValue] = useState();
+  const [genderValue, setGenderValue] = useState();
+  const [ageValue, setAgeValue] = useState();
+  const [aboutValue, setAboutValue] = useState();
+
+  const petdata = props.pets.userPet;
+  var petId;
+  // var userPet;
+  petdata.map((item, index) => {
+    if (index == 0) {
+      petId = item;
+      if (namePetValue == null) {
+        setNamePetValue(item.name);
+        setBreederNamePetValue(item.breeder.name);
+        setGenderValue(item.gender);
+        setAgeValue(item.age.name);
+        setAboutValue(item.about);
+      }
+    }
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (props.pets == null) {
+      props.getPets(token);
+    }
+  }, []);
 
   const handleClick2 = () => {
-    history.push("/profile");
+    const token1 = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    const data = {
+      namePetValue,
+      genderValue,
+      userId,
+      ageValue,
+      aboutValue
+    };
+    updateUsers(data, token1, petId.id);
   };
 
   return (
@@ -37,7 +69,7 @@ function EditCard() {
             <Form.Label>Name Pet</Form.Label>
             <Form.Control
               type="text"
-              placeholder={data.pet.name}
+              placeholder={petId.name}
               value={namePetValue}
               onChange={e => setNamePetValue(e.target.value)}
             />
@@ -47,7 +79,7 @@ function EditCard() {
             <Form.Label>Breeder</Form.Label>
             <Form.Control
               type="text"
-              placeholder={data.breeder.name}
+              placeholder={petId.breeder.name}
               value={breederNameValue}
               onChange={e => setBreederNamePetValue(e.target.value)}
             />
@@ -57,7 +89,7 @@ function EditCard() {
             <Form.Label>Gender</Form.Label>
             <Form.Control
               type="text"
-              placeholder={data.pet.gender}
+              placeholder={petId.gender}
               value={genderValue}
               onChange={e => setGenderValue(e.target.value)}
             />
@@ -67,7 +99,7 @@ function EditCard() {
             <Form.Label>Age</Form.Label>
             <Form.Control
               type="text"
-              placeholder={data.pet.age}
+              placeholder={petId.age.name}
               value={ageValue}
               onChange={e => setAgeValue(e.target.value)}
             />
@@ -78,7 +110,7 @@ function EditCard() {
             <Form.Control
               as="textarea"
               rows="4"
-              placeholder={data.pet.about}
+              placeholder={petId.about}
               value={aboutValue}
               onChange={e => setAboutValue(e.target.value)}
             />
@@ -94,4 +126,22 @@ function EditCard() {
   );
 }
 
-export default EditCard;
+// export default EditCard;
+const mapStateToProps = state => {
+  return {
+    pets: state.pets,
+    auth: state.auth,
+    species: state.species,
+    ages: state.ages
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getPets: token => dispatch(getPets(token)),
+    setUserPets: item => dispatch(setUserPets(item)),
+    updateUsers: (data, token, id) => dispatch(updateUsers(data, token, id))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditCard);

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { postLogin } from "../_actions/auth";
+import { getPets, setUserPets } from "../_actions/pets";
 
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -21,6 +22,7 @@ function LoginModal(props) {
       if (props.auth.loading == false) {
         localStorage.setItem("token", props.auth.data.token);
         localStorage.setItem("userId", props.auth.data.id);
+        props.getPets(props.auth.data.token);
         history.push("/dashboard");
       } else {
         setLog("Username or Password wrong");
@@ -112,13 +114,15 @@ function LoginModal(props) {
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    pets: state.pets
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    postLogin: user => dispatch(postLogin(user))
+    postLogin: user => dispatch(postLogin(user)),
+    getPets: token => dispatch(getPets(token))
   };
 };
 

@@ -15,8 +15,9 @@ import { useHistory } from "react-router-dom";
 
 import data from "../../MyData.js";
 
-function ProfileCard() {
+function ProfileCard(props) {
   let history = useHistory();
+  console.log(props.data);
 
   const handleClick2 = () => {
     history.push("/edit");
@@ -53,14 +54,15 @@ function ProfileCard() {
       <Card.Body className="text-left">
         <Row>
           <Col>
-            <h4 style={{ color: "#cc0066" }}>{data.pet.name}</h4>
+            <h4 style={{ color: "#cc0066" }}>{props.data.name}</h4>
           </Col>
           <Col className="text-right" style={{ color: "#666666" }}>
             {data.pet.species}
           </Col>
         </Row>
         <Card.Text style={{ color: "#1a000d" }}>
-          <GoPerson /> <a style={{ color: "#666666" }}>{data.breeder.name}</a>
+          <GoPerson />{" "}
+          <a style={{ color: "#666666" }}>{props.data.breeder.name}</a>
           <br></br>
           <FaMapMarker />{" "}
           <a style={{ color: "#666666" }}>
@@ -69,7 +71,7 @@ function ProfileCard() {
           <br></br>
           <IoMdMale />{" "}
           <a style={{ color: "#666666" }}>
-            {data.pet.gender} - {data.pet.age}
+            {props.data.gender} - {props.data.age.name}
           </a>
           <br></br>
           <MdPhone />{" "}
@@ -80,7 +82,7 @@ function ProfileCard() {
         <h5 style={{ color: "#cc0066" }}>About Pet</h5>
         <p>
           {" "}
-          <p>{data.pet.about}</p>
+          <p>{props.data.about}</p>
         </p>
         <div className="text-center">
           <Button variant="flat" onClick={() => handleClick2()}>
