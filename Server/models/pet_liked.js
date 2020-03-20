@@ -10,10 +10,14 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   pet_liked.associate = function(models) {
-    // pet_liked.hasMany(models.pet, { as: "pet" });
-    // pet_liked.hasMany(models.pet, { as: "liked_pet" });
-    // pet_liked.hasMany(models.pet_liked, { foreignKey: "pets_id" });
-    // pet_liked.hasMany(models.pet_liked, { foreignKey: "liked_pets_id" });
+    pet_liked.belongsTo(models.pet, {
+      foreignKey: "pet_id",
+      as: "pet"
+    });
+    pet_liked.belongsTo(models.pet, {
+      foreignKey: "pet_id_liked",
+      as: "liked"
+    });
   };
   return pet_liked;
 };

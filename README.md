@@ -1,68 +1,109 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Breednder
 
-## Available Scripts
+Breednder is tinder likes social media for "Breeder" to find their best pets partner.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Server Setup](#server-setup)
+  - [Client Setup](#client-setup)
+- [Screenshots](#screenshots)
+- [Built With](#built-with)
+- [Author](#author)
+- [License](#license)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Getting Started
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Before starting to install the project, there're some things that need to be done first.
 
-### `npm test`
+Make sure all of these are properly installed in your system.
+| Application | Download |
+| ------------ | ----------------------------------------------------------------------------------- |
+| Git | [Windows](https://gitforwindows.org/) / [Linux](https://git-scm.com/download/linux) |
+| Node.js | [Link](https://nodejs.org/en/download/) |
+| React Js | [Link](https://facebook.github.io/react-native/docs/getting-started) |
+| MySQL | [Link](https://www.mysql.com/downloads/) |
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Installation
 
-### `npm run build`
+First, clone this repository into your system.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+git clone https://github.com/mahesarohman98/breednder_mahesarohman_dw14perhi.git
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Then, install all the packages that described in `package.json` of both `client` and `server` directories.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+npm install
+```
 
-### `npm run eject`
+### Server Setup
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+For the server setup, first, make sure your MySQL services is running fine. In `server` directory, you'll find `config.json` inside `config` folder. Open and edit the `development` configuration to match your database setup.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "database_development",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+After completing the database configuration setup, migrate all the required tables.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+npm run build
+```
 
-## Learn More
+We also need to configure some environtment variables for the server, let's create `.env` file in server's root project, open and edit it, then input the code below.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+SECRET_KEY=ThisIsTheSecretKey
+BASE_URL=http://192.168.1.1:3000/
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+For the `SECRET_KEY` you can custom it as you wish. But, for `BASE_URL` make sure it is matched to your local network Internet Protocol.
 
-### Code Splitting
+And for the last step, running the server
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```
+npm start
+```
 
-### Analyzing the Bundle Size
+### Client Setup
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+For the client setup, this project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Making a Progressive Web App
+Before running the application, we need to configure an environtment variable for the client, let's create `.env` file in client's root project, open and edit it, then input the code below.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+```
+BASE_URL=http://192.168.1.1:5000/api/v1
+```
 
-### Advanced Configuration
+Note that the variable `BASE_URL` above is your server network Internet Protocol. If you are using physical device, make sure your physical device and server computer have a same network connection.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+Then, install and run the application.
 
-### Deployment
+npm start
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+Wait till the application is installed and run into your device. Now, you can explore Breeder and its features. Enjoy!
 
-### `npm run build` fails to minify
+## Screenshots
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+<img src="docs/screenshots/screenshots.png" />
+
+## Built With
+
+- [React](https://reactjs.org/) - Front-end
+- [Express JS](https://expressjs.com) - Back-end
+- [MySQL](https://www.mysql.com) - Database
+
+## Author
+
+**Mahesa Rohman** - [mahesarohman98](https://github.com/mahesarohman98)

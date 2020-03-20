@@ -8,10 +8,7 @@ import { Col, Image } from "react-bootstrap";
 function RenderImage(props) {
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (props.petId != null) {
-      props.getMatchStatus(props.petId, true, token);
-    }
-  }, [props.petId]);
+  }, []);
 
   const imageMatch = {
     ZIndex: "-1"
@@ -41,7 +38,7 @@ function RenderImage(props) {
                 rounded
                 style={imageMatch}
               />
-              <a style={imageFont}>{image[index].name}</a>
+              <a style={imageFont}>{item.pet.name}</a>
             </Col>
           </>
         ))}

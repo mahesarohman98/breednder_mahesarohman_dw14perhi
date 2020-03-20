@@ -28,7 +28,13 @@ const trans = (r, s) =>
   `perspective(1500px) rotateX(0) rotateY(0) rotateZ(${r}deg) scale(${s})`;
 
 function Deck(props) {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    props.getMatchStatus(props.pets.selectedPet.id, true, token);
+  }, [props.pets.selectedPet]);
+
   let pet = 0;
+  let check = 0;
 
   // const petData = props.pets.data;
   const [left, setLeft] = React.useState(
@@ -49,17 +55,13 @@ function Deck(props) {
   };
 
   const [gone] = useState(() => new Set()); // The set flags all the cards that are flicked out
+
   const [card, set] = useSprings(props.pets.data.length, i => ({
     ...to(i),
     from: from(i)
   })); // Create a bunch of springs using the helpers above
+
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (props.petId != null) {
-      props.getMatchStatus(props.petId, true, token);
-    }
-  }, [props.petId]);
   console.log(props.pets, "==================================)");
 
   const bind = useGesture(
@@ -82,8 +84,12 @@ function Deck(props) {
         const scale = down ? 1.1 : 1; // Active cards lift up a bit
         console.log(x);
 
-        // if (x >= 1000) alert(i);
-        // else if (x <= -1000) alert(i);
+        if (x >= 1000) {
+          alert("check");
+          check++;
+        } else if (x <= -1000) {
+          alert("kiri");
+        }
         return {
           x,
           rot,
@@ -96,13 +102,14 @@ function Deck(props) {
         if (!down && gone.size === data.length) {
           setTimeout(() => gone.clear() || set(i => to(i)), 600);
           pet++;
-          alert(pet);
+          // alert(pet);
         }
       } else {
-        alert(pet);
+        // alert(pet);
       }
     }
   );
+
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   const mycard = card.map(({ x, y, rot, scale }, i) => (
     <Card

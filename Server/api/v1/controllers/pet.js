@@ -1,7 +1,10 @@
 const models = require("../../../models");
 
 const Pet = models.pet;
-const Payment = models.payment;
+const User = models.user;
+const Species = models.species;
+const Age = models.age;
+const Match = models.pet_liked;
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
@@ -30,6 +33,18 @@ exports.findAll = async (req, res) => {
         userId: { [Op.not]: id }
       }
     });
+
+    // const data = await Match.findAll({
+    //   where: { status, [Op.or]: [{ pet_id }, { pet_id_liked: pet_id }] },
+    //   include: [
+    //     {
+    //       model: Pet,
+    //       as: "pet",
+    //       attributes: ["id", "name"]
+    //     }
+    //   ]
+    // });
+
     res.status(200).send({ data });
   } catch (err) {}
 };
@@ -67,8 +82,6 @@ exports.update = async (req, res) => {
     const { userId } = req.body;
     console.log(req.user == userId);
     if (req.user == userId || req.roles == "Admin") {
-      console.log("==============================)");
-
       await updatePet(req.body, id);
       const data = await findPet(id);
       res.status(200).send({ data });

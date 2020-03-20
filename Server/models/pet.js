@@ -18,14 +18,16 @@ module.exports = (sequelize, DataTypes) => {
     pet.belongsTo(models.age, { foreignKey: "ageId", as: "age" });
     pet.belongsTo(models.species, { foreignKey: "speciesId", as: "species" });
 
-    pet.belongsToMany(pet, {
+    // pet.hasMany(models.pet_liked, { as: "pet" });
+
+    pet.belongsToMany(models.pet, {
       through: models.pet_liked,
-      as: "pet_id",
+      as: "pet",
       foreignKey: "pet_id"
     });
-    pet.belongsToMany(pet, {
+    pet.belongsToMany(models.pet, {
       through: models.pet_liked,
-      as: "pet_id_liked",
+      as: "liked",
       foreignKey: "pet_id_liked"
     });
   };

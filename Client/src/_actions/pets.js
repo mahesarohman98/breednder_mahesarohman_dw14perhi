@@ -38,12 +38,9 @@ export const setSelectedPet = num => {
   };
 };
 
-export const updateUsers = (pet, token, id) => {
+export const updateUsers = (pet, id) => {
   const Pet = pet;
-  const Token = token;
   const Id = id;
-  console.log(Pet);
-
   return {
     type: UPDATE_USER_PETS,
     payload: async () => {

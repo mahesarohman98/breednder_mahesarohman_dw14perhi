@@ -6,6 +6,8 @@ const User = models.user;
 const Species = models.species;
 const Age = models.age;
 const Match = models.pet_liked;
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 exports.find = async (req, res) => {
   try {
@@ -16,7 +18,11 @@ exports.find = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   try {
-  } catch (err) {}
+    res.send("");
+  } catch (err) {
+    console.log(err);
+    res.send(err);
+  }
 };
 
 exports.findStatus = async (req, res) => {
@@ -24,13 +30,16 @@ exports.findStatus = async (req, res) => {
     const { pet_id, status } = req.query;
     console.log(req.query);
 
-    const pet1 = await Match.findAll({
-      where: { pet_id, status }
+    const data = await Match.findAll({
+      where: { status, [Op.or]: [{ pet_id }, { pet_id_liked: pet_id }] },
+      include: [
+        {
+          model: Pet,
+          as: "pet",
+          attributes: ["id", "name"]
+        }
+      ]
     });
-    const pet2 = await Match.findAll({
-      where: { pet_id_liked: pet_id, status }
-    });
-    const data = [...pet1, ...pet2];
     res.send({ data });
   } catch (err) {
     console.log(err);

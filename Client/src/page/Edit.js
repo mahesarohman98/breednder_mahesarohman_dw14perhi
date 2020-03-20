@@ -1,19 +1,21 @@
 import React, { userState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getUser } from "../_actions/users";
+import { getPets, getUserPets } from "../_actions/pets";
+import { getAuthUser } from "../_actions/auth";
+
 import { Container, Row, Col, Button } from "react-bootstrap";
 import LeftMenu from "../components/left_menu/LeftMenu";
 import AccountSetting from "../components/settings/AccountSetting";
 import DiscoverySetting from "../components/settings/DiscoverySetting";
 import EditCard from "../components/card/EditCard";
 
-function App(props) {
+function App({ getAuthUser, getUserPets, auth, pets }) {
   const [matches, setMatches] = React.useState(
     window.matchMedia("(min-width: 768px)").matches
   );
   useEffect(() => {
-    const id = 6;
-    props.getUser(id);
+    getUserPets();
+    getAuthUser();
     if (window.matchMedia("(min-width: 768px)").matches) {
       document.getElementById("leftMenu").style.display = "block";
     } else {
@@ -32,29 +34,15 @@ function App(props) {
     setMatches(e.matches);
   });
 
-  const data = props.pets.userPet;
-  var petId;
-  // var userPet;
-  data.map((item, index) => {
-    if (index == 0) petId = item;
-  });
-
   return (
     <>
       <LeftMenu
         headerName="setting"
-        petName={petId.name}
         container={
           <>
             <Col style={{ padding: "0px" }}>
-              <AccountSetting
-                email={props.users.data.email}
-                phone={props.users.data.phone}
-              />
-              <DiscoverySetting
-                data={props.pets.userPet[0]}
-                species={props.species.data}
-              />
+              <AccountSetting />
+              <DiscoverySetting />
             </Col>
           </>
         }
@@ -78,14 +66,14 @@ const mapStateToProps = state => {
   return {
     pets: state.pets,
     auth: state.auth,
-    species: state.species,
-    users: state.users
+    species: state.species
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getUser: id => dispatch(getUser(id))
+    getAuthUser: () => dispatch(getAuthUser()),
+    getUserPets: () => dispatch(getUserPets())
   };
 };
 

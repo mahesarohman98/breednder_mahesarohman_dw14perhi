@@ -25,6 +25,11 @@ function App({ pets, auth, getPets, getUserPets }) {
   useEffect(() => {
     getPets();
     getUserPets();
+    if (window.matchMedia("(min-width: 768px)").matches) {
+      document.getElementById("leftMenu").style.display = "block";
+    } else {
+      document.getElementById("leftMenu").style.display = "none";
+    }
   }, []);
 
   const data = pets.userPet;
@@ -54,19 +59,10 @@ function App({ pets, auth, getPets, getUserPets }) {
     setMatches(e.matches);
   });
 
-  useEffect(() => {
-    if (window.matchMedia("(min-width: 768px)").matches) {
-      document.getElementById("leftMenu").style.display = "block";
-    } else {
-      document.getElementById("leftMenu").style.display = "none";
-    }
-  }, []);
-
   return (
     <>
       <LeftMenu
         headerName="index"
-        petName="{pet.name}"
         container={
           <>
             <Col style={{ backgroundColor: "#ffe6f2" }}>
@@ -76,7 +72,7 @@ function App({ pets, auth, getPets, getUserPets }) {
                 </a>
               </Col>
               <Row>
-                <RenderImage petId={pet.id} />
+                <RenderImage />
               </Row>
             </Col>
           </>
@@ -87,7 +83,11 @@ function App({ pets, auth, getPets, getUserPets }) {
         <Row>
           <Col md={4} xs={1} />
           <Col md={12} xs={12} id="swap">
-            <Deck petId={pet.id} />
+            {pets.data.length > 1 ? (
+              <Deck petId={pet.id} />
+            ) : (
+              <h1 style={{ marginLeft: 400 }}>LOADING</h1>
+            )}
           </Col>
         </Row>
       </Container>

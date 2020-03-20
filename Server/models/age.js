@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   age.associate = function(models) {
-    age.hasMany(models.pet, { as: "age" });
+    age.hasOne(models.pet, { as: "age" });
   };
   return age;
 };

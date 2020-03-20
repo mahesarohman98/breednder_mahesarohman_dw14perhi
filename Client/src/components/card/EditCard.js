@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getPets, setUserPets, updateUsers } from "../../_actions/pets";
+import { getSpecies } from "../../_actions/species";
+import { getAges } from "../../_actions/ages";
 
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
@@ -9,42 +11,46 @@ import Card from "react-bootstrap/Card";
 import MultiUpload from "../MultiUpload";
 import { useHistory } from "react-router-dom";
 
-function EditCard(props) {
+function EditCard({
+  species,
+  auth,
+  pets,
+  ages,
+  getSpecies,
+  getAges,
+  updateUsers
+}) {
   let history = useHistory();
   const [namePetValue, setNamePetValue] = useState();
   const [breederNameValue, setBreederNamePetValue] = useState();
   const [genderValue, setGenderValue] = useState();
   const [ageValue, setAgeValue] = useState();
   const [aboutValue, setAboutValue] = useState();
-
-  const petdata = props.pets.userPet;
-  var petId;
   const genderName = ["Male", "Female"];
-  // var userPet;
-  petdata.map((item, index) => {
-    if (index == 0) {
-      petId = item;
-      if (namePetValue == null) {
-        setNamePetValue(item.name);
-        setBreederNamePetValue(item.breeder.name);
-        setGenderValue(item.gender);
-        setAgeValue(item.age.id);
-        setAboutValue(item.about);
-      }
-    }
-  });
+  const [flag, setFlag] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (props.pets == null) {
-      props.getPets(token);
-    }
+    getSpecies();
+    getAges();
+    setFlag(true);
   }, []);
 
+  if (
+    flag == true &&
+    auth.authUser.name != null &&
+    pets.selectedPet.name != null
+  ) {
+    setNamePetValue(pets.selectedPet.name);
+    setBreederNamePetValue(auth.authUser.name);
+    setGenderValue(pets.selectedPet.gender);
+    setAgeValue(pets.selectedPet.ageId);
+    setAboutValue(pets.selectedPet.about);
+    setFlag(false);
+  }
+
   const handleClick2 = () => {
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
-    const id = petId.id;
+    const userId = 6;
+    const id = pets.selectedPet.id;
     const pet = {
       namePetValue,
       genderValue,
@@ -52,7 +58,7 @@ function EditCard(props) {
       ageValue,
       aboutValue
     };
-    props.updateUsers(pet, token, id);
+    updateUsers(pet, id);
     history.push("/dashboard");
   };
 
@@ -72,7 +78,7 @@ function EditCard(props) {
             <Form.Label>Name Pet</Form.Label>
             <Form.Control
               type="text"
-              placeholder={petId.name}
+              placeholder={pets.selectedPet.name}
               value={namePetValue}
               onChange={e => setNamePetValue(e.target.value)}
             />
@@ -82,7 +88,7 @@ function EditCard(props) {
             <Form.Label>Breeder</Form.Label>
             <Form.Control
               type="text"
-              placeholder={petId.breeder.name}
+              placeholder={auth.authUser.name}
               value={breederNameValue}
               onChange={e => setBreederNamePetValue(e.target.value)}
             />
@@ -97,7 +103,7 @@ function EditCard(props) {
               {genderName.map((item, index) => {
                 return (
                   <>
-                    {item == petId.gender ? (
+                    {item == pets.selectedPet.gender ? (
                       <option key={index} value={item} selected="selected">
                         {item}
                       </option>
@@ -118,10 +124,10 @@ function EditCard(props) {
               as="select"
               onChange={e => setAgeValue(e.target.value)}
             >
-              {props.ages.data.map((item, index) => {
+              {ages.data.map((item, index) => {
                 return (
                   <>
-                    {item.name == petId.age.name ? (
+                    {item.id == pets.selectedPet.ageId ? (
                       <option key={index} value={item.id} selected="selected">
                         {item.name}
                       </option>
@@ -141,7 +147,7 @@ function EditCard(props) {
             <Form.Control
               as="textarea"
               rows="4"
-              placeholder={petId.about}
+              placeholder={pets.selectedPet.about}
               value={aboutValue}
               onChange={e => setAboutValue(e.target.value)}
             />
@@ -160,9 +166,9 @@ function EditCard(props) {
 // export default EditCard;
 const mapStateToProps = state => {
   return {
-    pets: state.pets,
-    auth: state.auth,
     species: state.species,
+    auth: state.auth,
+    pets: state.pets,
     ages: state.ages
   };
 };
@@ -170,7 +176,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getPets: token => dispatch(getPets(token)),
-    updateUsers: (pet, token, id) => dispatch(updateUsers(pet, token, id))
+    updateUsers: (pet, token, id) => dispatch(updateUsers(pet, id)),
+    getAges: () => dispatch(getAges()),
+    getSpecies: () => dispatch(getSpecies())
   };
 };
 

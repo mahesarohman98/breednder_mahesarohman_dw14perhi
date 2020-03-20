@@ -70,7 +70,6 @@ const reducer = (state = initialState, action) => {
     case `${UPDATE_USER_PETS}_FULFILLED`:
       return {
         ...state,
-        data: action.payload,
         loading: false,
         error: false
       };
